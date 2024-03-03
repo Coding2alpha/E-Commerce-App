@@ -8,10 +8,12 @@ import { useState } from "react";
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   return (
-    <div className="fixed flex h-16 pt-2 shadow-md w-full md:justify-between items-center px-1 md:px-4 z-10">
-      <Link to={"/"}><div>
-        <img className="w-25 h-14 items-center pb-1" src={logo} alt="" />
-      </div></Link>
+    <div className="fixed flex h-16 pt-2 shadow-md w-full md:justify-between items-center px-1 md:px-4 z-10 bg-white">
+      <Link to={"/"}>
+        <div>
+          <img className="w-25 h-14 items-center pb-1" src={logo} alt="" />
+        </div>
+      </Link>
       <nav className="flex md:justify-between items-center">
         <Link to={"/home"} className="px-1 md:px-2 text-xl">
           Home
@@ -41,12 +43,12 @@ const Header = () => {
           </div>
           {showMenu && (
             <div className="absolute shadow-md p-2 right-2 ">
-              <Link to={"/add"}>
+              <Link to={"/add"} onClick={() => setShowMenu(!showMenu)}>
                 <div className="py-1 text-xl whitespace-nowrap">
                   Add Product
                 </div>
               </Link>
-              <Link to={"/register"}>
+              <Link to={"/register"} onClick={() => setShowMenu(!showMenu)}>
                 <div className="text-xl whitespace-nowrap">Register</div>
               </Link>
             </div>
