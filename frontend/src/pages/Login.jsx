@@ -7,7 +7,8 @@ const Login = () => {
   const navigate = useNavigate();
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    navigate("/");
+    console.log(user);
+    navigate("/home");
   };
 
   const handleOnChange = (e) => {

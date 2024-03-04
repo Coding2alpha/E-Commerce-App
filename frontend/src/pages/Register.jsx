@@ -1,13 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { json, useNavigate } from "react-router-dom";
 
 const Register = () => {
+  // console.log(import.meta.env.VITE_APP_SERVER_DOMAIN);
   const [user, setUser] = useState({ name: "", email: "", password: "" });
   const navigate = useNavigate();
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    
+    const data = await fetch(
+      `${import.meta.env.VITE_APP_SERVER_DOMAIN}/register`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }
+    );
+    const res = await data.json();
+    console.log(res);
+    const {name}=res
+    alert(`${name} successfully register`);
     navigate("/login");
   };
 
