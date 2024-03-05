@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { json, useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
   // console.log(import.meta.env.VITE_APP_SERVER_DOMAIN);
@@ -19,10 +20,15 @@ const Register = () => {
       }
     );
     const res = await data.json();
-    console.log(res);
-    const {name}=res
-    alert(`${name} successfully register`);
-    navigate("/login");
+    // console.log(res);
+    const { check } = res;
+    if (check) {
+      toast(`${res.name} successfully register`);
+      localStorage.setItem("token", res.token);
+      navigate("/login");
+    } else {
+      alert(res.msg);
+    }
   };
 
   const handleOnChange = (e) => {

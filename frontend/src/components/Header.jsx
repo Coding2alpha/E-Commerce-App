@@ -4,12 +4,30 @@ import { FaCartShopping } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../features/userSlice.js";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+
+  // const userData = useSelector((state) => state.user.user);
+  // // console.log(userData);
+  const dispatch = useDispatch();
+
+  // I will handle logout through jwtTokens
+  const token = localStorage.getItem("token");
+  // console.log(token);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    localStorage.clear();
+    toast("successfully logout");
+  };
+
   return (
     <div className="fixed flex h-16 pt-2 shadow-md w-full md:justify-between items-center px-1 md:px-4 z-10 bg-white">
-      <Link to={"/"}>
+      <Link to={"/home"}>
         <div>
           <img className="w-25 h-14 items-center pb-1" src={logo} alt="" />
         </div>
@@ -48,9 +66,20 @@ const Header = () => {
                   Add Product
                 </div>
               </Link>
-              <Link to={"/register"} onClick={() => setShowMenu(!showMenu)}>
-                <div className="text-xl whitespace-nowrap">Register</div>
-              </Link>
+              {token ? (
+                <Link to={"/home"} onClick={() => setShowMenu(!showMenu)}>
+                  <div
+                    className="text-xl whitespace-nowrap"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </div>
+                </Link>
+              ) : (
+                <Link to={"/register"} onClick={() => setShowMenu(!showMenu)}>
+                  <div className="text-xl whitespace-nowrap">Register</div>
+                </Link>
+              )}
             </div>
           )}
         </div>

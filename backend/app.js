@@ -21,12 +21,16 @@ app.get("/", (req, res) => {
 
 const port = process.env.PORT || 5000;
 
-const start = () => {
-  connectDB(process.env.MONGO_URI);
-  console.log("connect with database");
-  app.listen(port, () => {
-    console.log(`Server is Listening On port ${port}`);
-  });
+const start = async () => {
+  try {
+    await connectDB(process.env.MONGO_URI);
+    console.log("connect with database");
+    app.listen(port, () =>
+      console.log(`Server is listening on port ${port}...`)
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 start();

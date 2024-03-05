@@ -9,11 +9,13 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import AddProduct from "./pages/AddProduct.jsx";
 import Login from "./pages/Login.jsx";
+import toast, { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <BrowserRouter>
       <Header />
+      <Toaster />
       <div className="pt-16 min-h-[calc(100vh)] h-full">
         <Routes>
           <Route path="/home" element={<Home />} />

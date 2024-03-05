@@ -1,14 +1,41 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../features/userSlice";
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const navigate = useNavigate();
-  const handleOnSubmit = (e) => {
+  const userRedux = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const handleOnSubmit = async (e) => {
     e.preventDefault();
-    console.log(user);
-    navigate("/home");
+    const data = await fetch(
+      `${import.meta.env.VITE_APP_SERVER_DOMAIN}/login`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify(user),
+      }
+    );
+    const res = await data.json();
+    const { check } = res;
+    if (check) {
+      toast(`${res.userData.name} successfully register`);
+      dispatch(login(res.userData));
+      localStorage.setItem('token',res.token)
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
+    } else {
+      toast(res.msg);
+    }
+    // console.log(userRedux.user.name);
   };
 
   const handleOnChange = (e) => {
