@@ -29,9 +29,13 @@ const Login = () => {
       toast(`${res.userData.name} successfully register`);
       dispatch(login(res.userData));
       localStorage.setItem('token',res.token)
-      setTimeout(() => {
-        navigate("/home");
-      }, 1000);
+      if (res.userData.email==import.meta.env.VITE_IS_ADMIN)
+      {
+          localStorage.setItem('role',true)
+      }
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
     } else {
       toast(res.msg);
     }

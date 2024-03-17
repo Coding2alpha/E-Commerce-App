@@ -25,6 +25,8 @@ const Header = () => {
     toast("successfully logout");
   };
 
+  const role = localStorage.getItem("role");
+
   return (
     <div className="fixed flex h-16 pt-2 shadow-md w-full md:justify-between items-center px-1 md:px-4 z-10 bg-white">
       <Link to={"/home"}>
@@ -61,11 +63,19 @@ const Header = () => {
           </div>
           {showMenu && (
             <div className="absolute shadow-md p-2 right-2 ">
-              <Link to={"/add"} onClick={() => setShowMenu(!showMenu)}>
-                <div className="py-1 text-xl whitespace-nowrap">
-                  Add Product
-                </div>
-              </Link>
+              {role ? (
+                <Link to={"/addProduct"} onClick={() => setShowMenu(!showMenu)}>
+                  <div className="py-1 text-xl whitespace-nowrap">
+                    Add Product
+                  </div>
+                </Link>
+              ) : (
+                <Link to={"/login"} onClick={() => setShowMenu(!showMenu)}>
+                  <div className="py-1 text-xl whitespace-nowrap">
+                    Login
+                  </div>
+                </Link>
+              )}
               {token ? (
                 <Link to={"/home"} onClick={() => setShowMenu(!showMenu)}>
                   <div

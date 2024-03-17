@@ -3,12 +3,15 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const cors = require("cors");
 const connectDB = require("./db/connect");
-const router=require('./routes/auth')
+const authRouter=require('./routes/auth')
+const addProductRouter=require('./routes/product')
+const authAdmin=require('./middleware/authAdmin')
 
 const app = express();
 app.use(cors());
-app.use(express.json());
-app.use('',router);
+app.use(express.json({limit:"10mb"}));
+app.use('',authRouter);
+app.use('/product',authAdmin,addProductRouter);
 
 // models
 
