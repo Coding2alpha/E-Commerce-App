@@ -56,7 +56,8 @@ const AddProduct = () => {
         }
       );
       const data = await res.json();
-      console.log(data.msg);
+      // console.log(data.msg);
+      toast('Product Added Successfully')
       setProduct({
         name: "",
         category: "",

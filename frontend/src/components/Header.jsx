@@ -28,13 +28,13 @@ const Header = () => {
   const role = localStorage.getItem("role");
 
   return (
-    <div className="fixed flex h-16 pt-2 shadow-md w-full md:justify-between items-center px-1 md:px-4 z-10 bg-white">
+    <div className="fixed flex h-16 pt-2 shadow-md w-full justify-between items-center px-1 md:px-4 z-10 bg-white">
       <Link to={"/home"}>
         <div>
           <img className="w-25 h-14 items-center pb-1" src={logo} alt="" />
         </div>
       </Link>
-      <nav className="flex md:justify-between items-center">
+      <nav className="md:justify-between items-center hidden md:flex">
         <Link to={"/home"} className="px-1 md:px-2 text-xl">
           Home
         </Link>
@@ -48,8 +48,8 @@ const Header = () => {
           Contact
         </Link>
       </nav>
-      <div className="flex items-center">
-        <div className="text-2xl md:text-5xl md:mr-6 relative">
+      <div className="flex justify-between items-center">
+        <div className="text-2xl md:text-5xl mr-6 relative">
           <Link to={"/cart"}>
             <FaCartShopping />
             <div className="absolute -top-1 -right-1 text-white bg-red-500 md:h-6 md:w-6 h-4 w-4 rounded-full m-0 p-0 text-sm text-center ">
@@ -70,11 +70,7 @@ const Header = () => {
                   </div>
                 </Link>
               ) : (
-                <Link to={"/login"} onClick={() => setShowMenu(!showMenu)}>
-                  <div className="py-1 text-xl whitespace-nowrap">
-                    Login
-                  </div>
-                </Link>
+                <></>
               )}
               {token ? (
                 <Link to={"/home"} onClick={() => setShowMenu(!showMenu)}>
@@ -86,9 +82,14 @@ const Header = () => {
                   </div>
                 </Link>
               ) : (
-                <Link to={"/register"} onClick={() => setShowMenu(!showMenu)}>
-                  <div className="text-xl whitespace-nowrap">Register</div>
-                </Link>
+                <div>
+                  <Link to={"/register"} onClick={() => setShowMenu(!showMenu)}>
+                    <div className="text-xl whitespace-nowrap">Register</div>
+                  </Link>
+                  <Link to={"/login"} onClick={() => setShowMenu(!showMenu)}>
+                    <div className="py-1 text-xl whitespace-nowrap">Login</div>
+                  </Link>
+                </div>
               )}
             </div>
           )}

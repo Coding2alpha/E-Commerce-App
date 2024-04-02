@@ -6,6 +6,7 @@ const ProductSchema = mongoose.Schema({
     required: [true, "Please Provide name"],
     minlength: 2,
     maxlength: 20,
+    unique:true
   },
   category: {
     type: String,

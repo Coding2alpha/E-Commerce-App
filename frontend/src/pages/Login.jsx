@@ -26,16 +26,15 @@ const Login = () => {
     const res = await data.json();
     const { check } = res;
     if (check) {
-      toast(`${res.userData.name} successfully register`);
+      toast(`${res.userData.name} successfully Login`);
       dispatch(login(res.userData));
-      localStorage.setItem('token',res.token)
-      if (res.userData.email==import.meta.env.VITE_IS_ADMIN)
-      {
-          localStorage.setItem('role',true)
+      localStorage.setItem("token", res.token);
+      if (res.userData.email == import.meta.env.VITE_IS_ADMIN) {
+        localStorage.setItem("role", true);
       }
-        setTimeout(() => {
-          navigate("/home");
-        }, 1000);
+      setTimeout(() => {
+        navigate("/home");
+      }, 1000);
     } else {
       toast(res.msg);
     }

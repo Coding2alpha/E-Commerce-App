@@ -10,8 +10,29 @@ import Contact from "./pages/Contact";
 import AddProduct from "./pages/AddProduct.jsx";
 import Login from "./pages/Login.jsx";
 import toast, { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setProductData } from "./features/productSlice.js";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchAllProduct = async () => {
+      const product = await fetch(
+        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/getAllProduct`
+      );
+      const data = await product.json();
+      // console.log(data);
+      dispatch(setProductData(data));
+      // console.log(data.msg);
+    };
+    fetchAllProduct();
+  }, []);
+
+  const productData = useSelector((state) => state.product);
+  // console.log(productData);
+
   return (
     <BrowserRouter>
       <Header />
@@ -20,6 +41,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
+          <Route path="/menu/:id" element={<Menu />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />

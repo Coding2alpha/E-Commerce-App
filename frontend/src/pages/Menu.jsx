@@ -1,6 +1,73 @@
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { MdCurrencyRupee } from "react-icons/md";
+import AllProduct from "../components/AllProduct";
+import loader from "../assets/loading.gif";
+
 const Menu = () => {
+  const { id } = useParams();
+  // console.log(id);
+  let productData = [];
+  productData = useSelector((state) => state.product.productList);
+  // console.log(productData);
+  if (productData.length == 0) {
+    return (
+      <div className="bg-slate-100 flex text-4xl justify-center items-center w-full h-screen ">
+        <div className="bg-white p-8 rounded-lg w-[800px]">
+          <div className="flex justify-center items-center h-full ">
+            <h1 className=" text-md">Loading...</h1>
+            <div className="h-20 w-20 ">
+              <img src={loader}></img>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const product = productData.filter((product) => product._id === id);
+  // console.log(product);
+  const [product1] = product;
+
   return (
-    <div>Menu</div>
-  )
-}
-export default Menu
+    <div className="p-2 md:p-4 bg-slate-100 ">
+      <div className="md:flex items-center  w-full max-w-4xl m-auto bg-white">
+        <div className="max-w-sm overflow-hidden w-full p-5">
+          <img src={product1.image} className=" hover:scale-105 " />
+        </div>
+        <div className="flex-col ml-7 ">
+          <div className="text-md overflow-hidden ">
+            <p className="md:text-4xl font-semibold text-slate-400 m-2">
+              {product1.name.toUpperCase()}
+            </p>
+            <p className="m-2">{product1.category.toUpperCase()}</p>
+            <p className="flex font-medium text-2xl m-2">
+              <span className="text-extrabold  font-extrabold pt-1 text-red-500">
+                <MdCurrencyRupee />
+              </span>
+              {product1.price}
+            </p>
+            <div className="mr-10 flex">
+              <button className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded">
+                Buy
+              </button>
+              <button className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded">
+                Add Cart
+              </button>
+            </div>
+          </div>
+          <div className="text-md overflow-hidden m-2">
+            <p className="text-2xl font-semibold text-slate-400">
+              Description :
+            </p>
+            <p className="flex flex-wrap ">{product1.description}</p>
+          </div>
+        </div>
+      </div>
+      <div>
+        <AllProduct />
+      </div>
+    </div>
+  );
+};
+export default Menu;
