@@ -27,6 +27,7 @@ const Header = () => {
 
   const role = localStorage.getItem("role");
 
+  const cartItem = useSelector((state) => state.product.cartList);
   return (
     <div className="fixed flex h-16 pt-2 shadow-md w-full justify-between items-center px-1 md:px-4 z-10 bg-white">
       <Link to={"/home"}>
@@ -50,10 +51,10 @@ const Header = () => {
       </nav>
       <div className="flex justify-between items-center">
         <div className="text-2xl md:text-5xl mr-6 relative">
-          <Link to={"/cart"}>
+          <Link to={"/cart"} onClick={() => window.scrollTo({ top: "0" })}>
             <FaCartShopping />
             <div className="absolute -top-1 -right-1 text-white bg-red-500 md:h-6 md:w-6 h-4 w-4 rounded-full m-0 p-0 text-sm text-center ">
-              0
+              {cartItem.length}
             </div>
           </Link>
         </div>

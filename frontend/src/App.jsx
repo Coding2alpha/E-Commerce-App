@@ -13,6 +13,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductData } from "./features/productSlice.js";
+import Cart from "./pages/Cart.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ function App() {
       <Toaster />
       <div className="pt-16 min-h-[calc(100vh)] h-full">
         <Routes>
+          <Route path="" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/menu" element={<Menu />} />
           <Route path="/menu/:id" element={<Menu />} />
@@ -47,6 +49,7 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/addProduct" element={<AddProduct />} />
+          <Route path="/cart" element={<Cart />} />
         </Routes>
       </div>
     </BrowserRouter>

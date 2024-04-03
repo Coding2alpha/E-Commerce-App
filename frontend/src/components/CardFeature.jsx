@@ -1,6 +1,17 @@
 import { MdCurrencyRupee } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { addToCart } from "../features/productSlice";
+import { useDispatch } from "react-redux";
+
+
 const CardFeature = ({ image, name, price, category, description, id }) => {
+
+  const dispatch=useDispatch()
+
+  const handleAddToCart=()=>{
+    dispatch(addToCart({ image, name, price, category, description, _id:id }));
+  }
+
   return (
     <div className="p-2 m-4 h-21 w-60 min-w-[240px] shadow-slate-500 shadow-md border-t-2 text-extrabold rounded-md font-semibold  flex-col justify-center bg-white ">
       {name ? (
@@ -25,7 +36,7 @@ const CardFeature = ({ image, name, price, category, description, id }) => {
             </div>
           </Link>
           <div className="p-2">
-            <button className="flex justify-center items-center  bg-yellow-500 w-full mt-2 p-2  rounded">
+            <button onClick={handleAddToCart} className="flex justify-center items-center  bg-yellow-500 w-full mt-2 p-2  rounded">
               Add Cart
             </button>
           </div>

@@ -1,10 +1,13 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { MdCurrencyRupee } from "react-icons/md";
 import AllProduct from "../components/AllProduct";
 import loader from "../assets/loading.gif";
+import { addToCart } from "../features/productSlice";
 
 const Menu = () => {
+
+
   const { id } = useParams();
   // console.log(id);
   let productData = [];
@@ -29,6 +32,15 @@ const Menu = () => {
   // console.log(product);
   const [product1] = product;
 
+  
+  const dispatch = useDispatch();
+
+  const handleAddToCart = () => {
+    const { image, name, price, category, description, _id } = product1;
+    dispatch(addToCart({ image, name, price, category, description, _id: id }));
+  };
+
+
   return (
     <div className="p-2 md:p-4 bg-slate-100 ">
       <div className="md:flex items-center  w-full max-w-4xl m-auto bg-white">
@@ -51,7 +63,10 @@ const Menu = () => {
               <button className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded">
                 Buy
               </button>
-              <button className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded">
+              <button
+                onClick={handleAddToCart}
+                className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded"
+              >
                 Add Cart
               </button>
             </div>
