@@ -1,14 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { MdCurrencyRupee } from "react-icons/md";
 import AllProduct from "../components/AllProduct";
 import loader from "../assets/loading.gif";
 import { addToCart } from "../features/productSlice";
 
 const Menu = () => {
-
-
-  const { id } = useParams();
+  let { id } = useParams();
   // console.log(id);
   let productData = [];
   productData = useSelector((state) => state.product.productList);
@@ -32,7 +30,6 @@ const Menu = () => {
   // console.log(product);
   const [product1] = product;
 
-  
   const dispatch = useDispatch();
 
   const handleAddToCart = () => {
@@ -40,6 +37,13 @@ const Menu = () => {
     dispatch(addToCart({ image, name, price, category, description, _id: id }));
   };
 
+  const navigate = useNavigate();
+
+  const handleBuy = () => {
+    const { image, name, price, category, description, _id } = product1;
+    dispatch(addToCart({ image, name, price, category, description, _id: id }));
+    navigate("/cart");
+  };
 
   return (
     <div className="p-2 md:p-4 bg-slate-100 ">
@@ -60,7 +64,10 @@ const Menu = () => {
               {product1.price}
             </p>
             <div className="mr-10 flex">
-              <button className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded">
+              <button
+                onClick={handleBuy}
+                className="flex justify-center items-center bg-yellow-500 w-[100px] m-2 p-2 rounded"
+              >
                 Buy
               </button>
               <button

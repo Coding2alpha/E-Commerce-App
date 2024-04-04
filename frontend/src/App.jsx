@@ -14,6 +14,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setProductData } from "./features/productSlice.js";
 import Cart from "./pages/Cart.jsx";
+import Success from "./pages/Success.jsx";
+import Cancel from "./pages/Cancel.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -42,7 +44,7 @@ function App() {
         <Routes>
           <Route path="" element={<Home />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/menu" element={<Menu />} />
+          {/* <Route path="/menu" element={<Menu />} /> */}
           <Route path="/menu/:id" element={<Menu />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
@@ -50,6 +52,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/success" element={<Success />} />
+          <Route path="/cancelled" element={<Cancel />} />
         </Routes>
       </div>
     </BrowserRouter>

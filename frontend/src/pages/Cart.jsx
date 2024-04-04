@@ -2,10 +2,14 @@ import { useSelector } from "react-redux";
 import Cart_Card from "../components/Cart_card";
 import { MdCurrencyRupee } from "react-icons/md";
 import emptyCartImage from "../assets/Cart.gif";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { loadStripe } from "@stripe/stripe-js";
 
 const Cart = () => {
   const cartItem = useSelector((state) => state.product.cartList);
   // console.log(cartItem);
+  const navigate = useNavigate();
 
   let total_price = 0;
   let total_qty = 0;
@@ -14,26 +18,57 @@ const Cart = () => {
     total_price += item.price * item.qty;
     total_qty += item.qty;
   });
-  // console.log(total);
+  // console.log(total_price);
 
   if (cartItem.length == 0) {
     return (
       <div className="flex-col bg-slate-200 h-screen w-full flex justify-center items-center">
         <div className="p-4  text-blue-500 font-bold text-5xl">
-          Your Cart Is Empty <span className="text-red-500">OOPS!</span>
+          <span className="text-red-500">OOPS! </span>
+          Your Cart Is Empty
         </div>
         <img src={emptyCartImage} className=" md:h-[250px] md:w-[250px]" />
       </div>
     );
   }
 
+  const handlePayment = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      toast("Please Login");
+      setTimeout(() => {
+        navigate("/login");
+      }, 1000);
+    }
+    const stripePromise = await loadStripe(
+      import.meta.env.VITE_APP_STRIPE_PUBLIC_KEY
+    );
+    const res = await fetch(
+      `${
+        import.meta.env.VITE_APP_SERVER_DOMAIN
+      }/payment/create-checkout-session`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(cartItem),
+      }
+    );
+    const data = await res.json();
+    console.log(data);
+    toast("Redirect To Payment Gateway");
+    stripePromise.redirectToCheckout({ sessionId: data });
+  };
+
   return (
-    <div className="bg-slate-200 h-screen">
-      <div className="p-4  text-blue-500 font-bold text-4xl">
+    <div className="bg-slate-200 h-[100%] w-[100%]">
+      <div className="p-4 text-blue-500 font-bold text-4xl ">
         Your Cart Items
       </div>
       <div className="md:flex ">
-        <div className="w-[900px]">
+        <div className="md:w-[900px]">
           {cartItem.map((product) => {
             return (
               <Cart_Card
@@ -62,13 +97,16 @@ const Cart = () => {
               <div className="flex">
                 <span className="text-extrabold  font-extrabold pt-1 text-red-500">
                   <MdCurrencyRupee />
-                </span>{" "}
+                </span>
                 {total_price}
               </div>
             </h1>
-            <h1 className="p-4 mt-4 bg-red-500 font-semibold text-white text-4xl flex justify-center">
+            <button
+              onClick={handlePayment}
+              className="p-4 mt-4 bg-red-500 font-semibold w-full text-white text-4xl flex justify-center"
+            >
               Payment
-            </h1>
+            </button>
           </div>
         </div>
       </div>

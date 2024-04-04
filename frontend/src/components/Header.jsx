@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "../assets/logo.png";
 import { FaCartShopping } from "react-icons/fa6";
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -7,6 +6,7 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/userSlice.js";
+import { FaHome } from "react-icons/fa";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -32,16 +32,16 @@ const Header = () => {
     <div className="fixed flex h-16 pt-2 shadow-md w-full justify-between items-center px-1 md:px-4 z-10 bg-white">
       <Link to={"/home"}>
         <div>
-          <img className="w-25 h-14 items-center pb-1" src={logo} alt="" />
+          <FaHome className="w-25 h-14 items-center pb-1 ml-2 text-5xl" />
         </div>
       </Link>
       <nav className="md:justify-between items-center hidden md:flex">
-        <Link to={"/home"} className="px-1 md:px-2 text-xl">
+        {/* <Link to={"/home"} className="px-1 md:px-2 text-xl">
           Home
-        </Link>
-        <Link to={"/menu"} className="px-1 md:px-2 text-xl">
+        </Link> */}
+        {/* <Link to={"/menu"} className="px-1 md:px-2 text-xl">
           Menu
-        </Link>
+        </Link> */}
         <Link to={"/about"} className=" px-1 md:px-2 text-xl">
           About
         </Link>

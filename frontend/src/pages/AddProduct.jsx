@@ -144,7 +144,7 @@ const AddProduct = () => {
             Price
           </label>
           <input
-            type="text"
+            type="number"
             name="price"
             className="h-8"
             value={product.price}

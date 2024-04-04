@@ -119,12 +119,12 @@ const Login = () => {
             </div>
           </form>
           <p className="mt-10 text-center text-sm text-gray-500">
-            Already Have an Account?{" "}
+            Don`t` Have an Account?
             <a
-              href="/login"
+              href="/register"
               className="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
             >
-              Login here
+              SignUp here
             </a>
           </p>
         </div>

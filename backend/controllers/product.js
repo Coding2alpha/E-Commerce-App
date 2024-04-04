@@ -8,7 +8,7 @@ const addProduct = async (req, res) => {
     // req.body.createdBy = req.user.userId;
     // console.log(req.body);
     const product = await Product.create(req.body);
-    console.log(product);
+    // console.log(product);
     res.status(StatusCodes.CREATED).json({ msg: "successful" });
   } catch (error) {
     res.send({ msg: "unsuccessfull" });
