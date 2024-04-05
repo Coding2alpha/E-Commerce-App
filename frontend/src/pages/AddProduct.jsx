@@ -43,34 +43,42 @@ const AddProduct = () => {
     try {
       const { name, category, image, price, description } = product;
       if (name && category && image && price && description) {
-        const token = localStorage.getItem("token");
-        // console.log(token);
-        const res = await fetch(
-          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/product/addProduct`,
-          {
-            method: "POST",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(product),
+        if (name.length > 20) {
+          toast("Name length Must be less than 20");
+        } else {
+          const token = localStorage.getItem("token");
+          // console.log(token);
+          const res = await fetch(
+            `${import.meta.env.VITE_APP_SERVER_DOMAIN}/product/addProduct`,
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify(product),
+            }
+          );
+          const data = await res.json();
+          // console.log(data.msg);
+          if (data.msg == "successful") {
+            toast("Product Added Successfully");
+            setProduct({
+              name: "",
+              category: "",
+              image: "",
+              price: "",
+              description: "",
+            });
+          } else {
+            toast("Product Not Added");
           }
-        );
-        const data = await res.json();
-        // console.log(data.msg);
-        toast("Product Added Successfully");
-        setProduct({
-          name: "",
-          category: "",
-          image: "",
-          price: "",
-          description: "",
-        });
+        }
       } else {
         toast("Please Provide Required Fields");
       }
     } catch (error) {
-      toast("Product Not Added Successfully");
+      toast(error.message);
     }
   };
 
@@ -109,14 +117,14 @@ const AddProduct = () => {
             className="h-8"
           >
             <option value={"other"}>select category</option>
-            <option value={"fruits"}>Fruits</option>
-            <option value={"vegetable"}>Vegetable</option>
-            <option value={"iceCream"}>Icream</option>
-            <option value={"dosa"}>Dosa</option>
-            <option value={"pizza"}>Pizza</option>
-            <option value={"rice"}>rice</option>
-            <option value={"cake"}>Cake</option>
-            <option value={"burger"}>Burger</option>
+            <option value={"dumbbells"}>Dumbbells</option>
+            <option value={"banches"}>Banches</option>
+            <option value={"racks"}>Racks</option>
+            <option value={"plates"}>Plates</option>
+            <option value={"accessories"}>Accessories</option>
+            <option value={"bottles"}>Bottles</option>
+            <option value={"resistance-tubes"}>Resistance-tubes</option>
+            <option value={"treadmills"}>Treadmills</option>
             <option value={"panner"}>Panner</option>
             <option value={"sandwich"}>Sandwich</option>
           </select>

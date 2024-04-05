@@ -11,7 +11,7 @@ const addProduct = async (req, res) => {
     // console.log(product);
     res.status(StatusCodes.CREATED).json({ msg: "successful" });
   } catch (error) {
-    res.send({ msg: "unsuccessfull" });
+    res.send(error.message );
   }
 };
 

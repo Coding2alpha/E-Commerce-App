@@ -8,24 +8,23 @@ import { addToCart } from "../features/productSlice";
 const Menu = () => {
   let { id } = useParams();
   const dispatch = useDispatch();
+   const navigate = useNavigate();
   // console.log(id);
   let productData = useSelector((state) => state.product.productList);
   // console.log(productData);
 
-  const product = productData.filter((product) => product._id === id);
+  const product = productData.filter((product) => product._id === id)[0];
   // console.log(product);
-  const [product1] = product;
 
   const handleAddToCart = () => {
-    const { image, name, price, category, description, _id } = product1;
-    dispatch(addToCart({ image, name, price, category, description, _id: id }));
+    dispatch(addToCart(product));
   };
 
-  const navigate = useNavigate();
+ 
 
   const handleBuy = () => {
-    const { image, name, price, category, description, _id } = product1;
-    dispatch(addToCart({ image, name, price, category, description, _id: id }));
+    // const { image, name, price, category, description, _id } = product;
+    dispatch(addToCart(product));
     navigate("/cart");
   };
 
@@ -50,19 +49,19 @@ const Menu = () => {
     <div className="p-2 md:p-4 bg-slate-100 ">
       <div className="md:flex items-center  w-full max-w-4xl m-auto bg-white">
         <div className="max-w-sm overflow-hidden w-full p-5">
-          <img src={product1.image} className=" hover:scale-105 " />
+          <img src={product.image} className=" hover:scale-105 " />
         </div>
         <div className="flex-col ml-7 ">
           <div className="text-md overflow-hidden ">
             <p className="md:text-4xl font-semibold text-slate-400 m-2">
-              {product1.name.toUpperCase()}
+              {product.name.toUpperCase()}
             </p>
-            <p className="m-2">{product1.category.toUpperCase()}</p>
+            <p className="m-2">{product.category.toUpperCase()}</p>
             <p className="flex font-medium text-2xl m-2">
               <span className="text-extrabold  font-extrabold pt-1 text-red-500">
                 <MdCurrencyRupee />
               </span>
-              {product1.price}
+              {product.price}
             </p>
             <div className="mr-10 flex">
               <button
@@ -83,7 +82,7 @@ const Menu = () => {
             <p className="text-2xl font-semibold text-slate-400">
               Description :
             </p>
-            <p className="flex flex-wrap ">{product1.description}</p>
+            <p className="flex flex-wrap ">{product.description}</p>
           </div>
         </div>
       </div>

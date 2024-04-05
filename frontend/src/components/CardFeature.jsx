@@ -25,8 +25,8 @@ const CardFeature = ({ image, name, price, category, description, id }) => {
             </div>
             <div className="text-md overflow-hidden ">
               <p className=" whitespace-nowrap ">{description}</p>
-              {/* <p className="flex justify-center">{name.toUpperCase()}</p> */}
-              <p className="">{category.toUpperCase()}</p>
+              <p className="">{name.toUpperCase()}</p>
+              {/* <p className="">{category.toUpperCase()}</p> */}
               <p className="flex font-medium text-2xl">
                 <span className="text-extrabold   font-extrabold pt-1 text-red-500">
                   <MdCurrencyRupee />
