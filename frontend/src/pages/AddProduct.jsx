@@ -40,33 +40,37 @@ const AddProduct = () => {
   const handleOnsubmit = async (e) => {
     e.preventDefault();
     // console.log(product);
-    const { name, category, image, price, description } = product;
-    if (name && category && image && price && description) {
-      const token = localStorage.getItem("token");
-      // console.log(token);
-      const res = await fetch(
-        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/product/addProduct`,
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(product),
-        }
-      );
-      const data = await res.json();
-      // console.log(data.msg);
-      toast('Product Added Successfully')
-      setProduct({
-        name: "",
-        category: "",
-        image: "",
-        price: "",
-        description: "",
-      });
-    } else {
-      toast("Please Provide Required Fields");
+    try {
+      const { name, category, image, price, description } = product;
+      if (name && category && image && price && description) {
+        const token = localStorage.getItem("token");
+        // console.log(token);
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/product/addProduct`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(product),
+          }
+        );
+        const data = await res.json();
+        // console.log(data.msg);
+        toast("Product Added Successfully");
+        setProduct({
+          name: "",
+          category: "",
+          image: "",
+          price: "",
+          description: "",
+        });
+      } else {
+        toast("Please Provide Required Fields");
+      }
+    } catch (error) {
+      toast("Product Not Added Successfully");
     }
   };
 

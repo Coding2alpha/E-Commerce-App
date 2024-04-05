@@ -7,10 +7,28 @@ import { addToCart } from "../features/productSlice";
 
 const Menu = () => {
   let { id } = useParams();
+  const dispatch = useDispatch();
   // console.log(id);
-  let productData = [];
-  productData = useSelector((state) => state.product.productList);
+  let productData = useSelector((state) => state.product.productList);
   // console.log(productData);
+
+  const product = productData.filter((product) => product._id === id);
+  // console.log(product);
+  const [product1] = product;
+
+  const handleAddToCart = () => {
+    const { image, name, price, category, description, _id } = product1;
+    dispatch(addToCart({ image, name, price, category, description, _id: id }));
+  };
+
+  const navigate = useNavigate();
+
+  const handleBuy = () => {
+    const { image, name, price, category, description, _id } = product1;
+    dispatch(addToCart({ image, name, price, category, description, _id: id }));
+    navigate("/cart");
+  };
+
   if (productData.length == 0) {
     return (
       <div className="bg-slate-100 flex text-4xl justify-center items-center w-full h-screen ">
@@ -26,24 +44,7 @@ const Menu = () => {
     );
   }
 
-  const product = productData.filter((product) => product._id === id);
-  // console.log(product);
-  const [product1] = product;
-
-  const dispatch = useDispatch();
-
-  const handleAddToCart = () => {
-    const { image, name, price, category, description, _id } = product1;
-    dispatch(addToCart({ image, name, price, category, description, _id: id }));
-  };
-
-  const navigate = useNavigate();
-
-  const handleBuy = () => {
-    const { image, name, price, category, description, _id } = product1;
-    dispatch(addToCart({ image, name, price, category, description, _id: id }));
-    navigate("/cart");
-  };
+  
 
   return (
     <div className="p-2 md:p-4 bg-slate-100 ">
