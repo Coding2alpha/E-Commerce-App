@@ -57,7 +57,7 @@ const Cart = () => {
       }
     );
     const data = await res.json();
-    console.log(data);
+    // console.log(data);
     toast("Redirect To Payment Gateway");
     stripePromise.redirectToCheckout({ sessionId: data });
   };

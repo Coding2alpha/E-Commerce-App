@@ -22,7 +22,7 @@ app.use("/payment", authUser,paymentRouter);
 // models
 
 app.get("/", (req, res) => {
-  res.send("hello");
+  res.send("Welcome To EShop");
 });
 
 const port = process.env.PORT || 5000;

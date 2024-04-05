@@ -35,12 +35,14 @@ function App() {
 
   const productData = useSelector((state) => state.product);
   // console.log(productData);
+document.body.style.zoom = "80%";
+
 
   return (
     <BrowserRouter>
       <Header />
       <Toaster />
-      <div className="pt-16 min-h-[calc(100vh)] h-full">
+      <div className="pt-16 min-h-[calc(100vh)] h-full ">
         <Routes>
           <Route path="" element={<Home />} />
           <Route path="/home" element={<Home />} />
