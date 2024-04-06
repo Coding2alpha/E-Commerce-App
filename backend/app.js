@@ -11,13 +11,7 @@ const cartRouter = require("./routes/cart");
 const authUser = require("./middleware/authentication");
 
 const app = express();
-app.use(
-  cors({
-    origin: "https://ufit-eshop.vercel.app",
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
+app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use("", authRouter);
 app.use("/product", authAdmin, productRouter);
