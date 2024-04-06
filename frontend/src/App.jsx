@@ -21,7 +21,6 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
     const fetchAllProduct = async () => {
       const product = await fetch(
         `${import.meta.env.VITE_APP_SERVER_DOMAIN}/getAllProduct`
@@ -31,7 +30,7 @@ function App() {
       dispatch(setProductData(productData));
 
       // get all cart items
-      
+      const token = localStorage.getItem("token");
       if(token)
       {
         const product1 = await fetch(
