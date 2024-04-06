@@ -4,7 +4,7 @@ const { StatusCodes } = require("http-status-codes");
 const register = async (req, res) => {
   //   console.log(req.body);
   try {
-    const user = await User.create({ ...req.body });
+    const user = await User.create({ ...req.body, cartItems:[] });
     const token = await user.createJWT();
     // console.log(token);
     res

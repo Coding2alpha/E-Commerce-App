@@ -12,7 +12,7 @@ import Login from "./pages/Login.jsx";
 import toast, { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setProductData } from "./features/productSlice.js";
+import { setProductData, setCartItems } from "./features/productSlice.js";
 import Cart from "./pages/Cart.jsx";
 import Success from "./pages/Success.jsx";
 import Cancel from "./pages/Cancel.jsx";
@@ -21,22 +21,58 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     const fetchAllProduct = async () => {
       const product = await fetch(
         `${import.meta.env.VITE_APP_SERVER_DOMAIN}/getAllProduct`
       );
-      const data = await product.json();
+      const productData = await product.json();
       // console.log(data);
-      dispatch(setProductData(data));
-      // console.log(data.msg);
+      dispatch(setProductData(productData));
+
+      // get all cart items
+      
+      if(token)
+      {
+        const product1 = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/getCartItems`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const cartItemsData = await product1.json();
+
+        const productsWithQuantities = cartItemsData
+          .map((cartItem) => {
+            // Find corresponding product in productData
+            const product = productData.find(
+              (product) => product._id === cartItem.productId
+            );
+            if (product) {
+              return {
+                ...product,
+                qty: cartItem.quantity,
+                total: cartItem.price, // Include quantity from cart item
+              };
+            }
+            return null; // Return null if product not found (handle edge case)
+          })
+          .filter(Boolean);
+        // console.log(data);
+        // console.log(productsWithQuantities);
+        dispatch(setCartItems(productsWithQuantities));
+      }
     };
     fetchAllProduct();
   }, []);
 
-  const productData = useSelector((state) => state.product);
   // console.log(productData);
-document.body.style.zoom = "80%";
-
+  // const productData = useSelector((state) => state.product.productList);
+  document.body.style.zoom = "80%";
 
   return (
     <BrowserRouter>
@@ -55,7 +91,7 @@ document.body.style.zoom = "80%";
           <Route path="/addProduct" element={<AddProduct />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<Success />} />
-          <Route path="/cancelled" element={<Cancel />} />
+          <Route path="/cancel" element={<Cancel />} />
         </Routes>
       </div>
     </BrowserRouter>

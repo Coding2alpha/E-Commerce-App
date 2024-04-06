@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const jwt = require("jsonwebtoken");
 
 const authUser = async (req, res, next) => {
+  // console.log(req.body);
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     res.status(StatusCodes.UNAUTHORIZED).send({ msg: "Authentication failed" });

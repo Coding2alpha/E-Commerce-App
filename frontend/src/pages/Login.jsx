@@ -4,12 +4,52 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
+import {  setCartItems } from "../features/productSlice.js";
+
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const userRedux = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const productData = useSelector((state) => state.product.productList);
+
+
+  const getCartItemAfterLogin=async()=>{
+    const token = localStorage.getItem("token");
+    const product1 = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/getCartItems`,
+          {
+            method: "GET",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const cartItemsData = await product1.json();
+
+        const productsWithQuantities = cartItemsData
+          .map((cartItem) => {
+            // Find corresponding product in productData
+            const product = productData.find(
+              (product) => product._id === cartItem.productId
+            );
+            if (product) {
+              return {
+                ...product,
+                qty: cartItem.quantity,
+                total: cartItem.price, // Include quantity from cart item
+              };
+            }
+            return null; // Return null if product not found (handle edge case)
+          })
+          .filter(Boolean);
+        // console.log(data);
+        // console.log(productsWithQuantities);
+        dispatch(setCartItems(productsWithQuantities));
+  }
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -32,6 +72,7 @@ const Login = () => {
       if (res.userData.email == import.meta.env.VITE_IS_ADMIN) {
         localStorage.setItem("role", true);
       }
+      getCartItemAfterLogin();
       setTimeout(() => {
         navigate("/home");
       }, 1000);

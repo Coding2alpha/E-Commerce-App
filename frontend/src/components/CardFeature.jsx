@@ -2,14 +2,34 @@ import { MdCurrencyRupee } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { addToCart } from "../features/productSlice";
 import { useDispatch } from "react-redux";
+import toast from 'react-hot-toast'
+import { useNavigate } from "react-router-dom";
 
 
 const CardFeature = ({ image, name, price, category, description, id }) => {
 
   const dispatch=useDispatch()
-
-  const handleAddToCart=()=>{
-    dispatch(addToCart({ image, name, price, category, description, _id:id }));
+  const navigate=useNavigate()
+  
+  const handleAddToCart=async ()=>{
+    const token = localStorage.getItem("token");
+    // console.log(token);
+      const res = await fetch(
+        `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/addCartItem`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ id }),
+        }
+      );
+      const data = await res.json();
+      dispatch(
+        addToCart({ image, name, price, category, description, _id: id })
+      );
+    
   }
 
   return (

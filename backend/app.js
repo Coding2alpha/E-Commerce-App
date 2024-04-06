@@ -6,8 +6,9 @@ const connectDB = require("./db/connect");
 const authRouter = require("./routes/auth");
 const productRouter = require("./routes/product");
 const authAdmin = require("./middleware/authAdmin");
-const paymentRouter=require('./routes/payment')
-const authUser=require('./middleware/authentication')
+const paymentRouter = require("./routes/payment");
+const cartRouter = require("./routes/cart");
+const authUser = require("./middleware/authentication");
 
 const app = express();
 app.use(cors());
@@ -15,7 +16,8 @@ app.use(express.json({ limit: "10mb" }));
 app.use("", authRouter);
 app.use("/product", authAdmin, productRouter);
 app.use("/", productRouter);
-app.use("/payment", authUser,paymentRouter);
+app.use("/payment", authUser, paymentRouter);
+app.use("/cart", authUser, cartRouter);
 
 // 4000003560000008
 

@@ -30,7 +30,7 @@ const createCheckout = async (req, res) => {
         };
       }),
       success_url: `${process.env.FRONTEND_URL}/success`,
-      cancel_url: `${process.env.FRONTEND_URL}/canceled`,
+      cancel_url: `${process.env.FRONTEND_URL}/cancelled`,
     };
 
     const session = await stripe.checkout.sessions.create(params);

@@ -7,6 +7,8 @@ import { toast } from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/userSlice.js";
 import { FaHome } from "react-icons/fa";
+import { setProductData, setCartItems } from "../features/productSlice.js";
+
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -21,7 +23,9 @@ const Header = () => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(setCartItems([]))
     localStorage.clear();
+
     toast("successfully logout");
   };
 
