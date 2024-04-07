@@ -19,7 +19,7 @@ const Login = () => {
   const getCartItemAfterLogin=async()=>{
     const token = localStorage.getItem("token");
     const product1 = await fetch(
-          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/getCartItems`,
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/getCartItem`,
           {
             method: "GET",
             headers: {
