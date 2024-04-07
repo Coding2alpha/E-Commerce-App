@@ -5,6 +5,7 @@ import emptyCartImage from "../assets/Cart.gif";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
+import { useEffect, useState } from "react";
 
 const Cart = () => {
   const cartItem = useSelector((state) => state.product.cartList);
@@ -19,18 +20,54 @@ const Cart = () => {
     total_qty += item.qty;
   });
   // console.log(total_price);
+  const [loading, setLoading] = useState(false);
 
-  if (cartItem.length == 0) {
+  useEffect(() => {
+    if (cartItem.length === 0) {
+      // Set loading state to true after 5 seconds
+      const timer = setTimeout(() => {
+        setLoading(true);
+      }, 5000);
+
+      // Clean up the timer to avoid memory leaks
+      return () => clearTimeout(timer);
+    }
+  }, [cartItem]); // Re-run effect when cartItem changes
+
+  const beforeFiveSec = () => {
     return (
       <div className="flex-col bg-slate-200 h-screen w-full flex justify-center items-center">
-        <div className="p-4  text-blue-500 font-bold text-5xl">
+        <div className="p-4 text-blue-500 font-bold text-5xl">
+          Please Wait...
+        </div>
+      </div>
+    );
+  };
+
+  const afterFiveSec = () => {
+    return (
+      <div className="flex-col bg-slate-200 h-screen w-full flex justify-center items-center">
+        <div className="p-4 text-blue-500 font-bold text-5xl">
           <span className="text-red-500">OOPS! </span>
           Your Cart Is Empty
         </div>
-        <img src={emptyCartImage} className=" md:h-[250px] md:w-[250px]" />
+        <img
+          src={emptyCartImage}
+          className="md:h-[250px] md:w-[250px]"
+          alt="Empty Cart"
+        />
       </div>
     );
-  }
+  };
+
+  // Conditional rendering based on cartItem length and loading state
+  if (cartItem.length === 0) {
+    if (!loading) {
+      return beforeFiveSec();
+    } else {
+      return afterFiveSec();
+    }
+  } 
 
   const handlePayment = async () => {
     const token = localStorage.getItem("token");

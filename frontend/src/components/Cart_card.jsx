@@ -11,9 +11,8 @@ import { useDispatch } from "react-redux";
 
 const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
   const dispatch = useDispatch();
-
+  const token = localStorage.getItem("token");
   const increaseQty = async () => {
-    const token = localStorage.getItem("token");
     // console.log(token);
     if (token) {
       try {
@@ -39,7 +38,6 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
   };
 
   const decreaseQty = async () => {
-    const token = localStorage.getItem("token");
     // console.log(token);
     if (token && qty >= 2) {
       try {
@@ -65,7 +63,6 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
   };
 
   const deleteItem = async () => {
-    const token = localStorage.getItem("token");
     // console.log(token);
     if (token) {
       try {
