@@ -7,7 +7,7 @@ import {
   decreaseQuantity,
   deleteFromCart,
 } from "../features/productSlice";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
   const dispatch = useDispatch();
@@ -17,6 +17,7 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
     // console.log(token);
     if (token) {
       try {
+        dispatch(increaseQuantity(id));
         const res = await fetch(
           `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/addCartItem`,
           {
@@ -32,15 +33,17 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
       } catch (error) {
         console.log("error.message");
       }
+    } else {
+      dispatch(increaseQuantity(id));
     }
-    dispatch(increaseQuantity(id));
   };
 
   const decreaseQty = async () => {
     const token = localStorage.getItem("token");
     // console.log(token);
-    if (token && qty>=2) {
+    if (token && qty >= 2) {
       try {
+        dispatch(decreaseQuantity(id));
         const res = await fetch(
           `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/decreaseQuantity`,
           {
@@ -54,17 +57,19 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
         );
         const data = await res.json();
       } catch (error) {
-        console.log("error.message");
+        console.log(error.message);
       }
+    } else {
+      dispatch(decreaseQuantity(id));
     }
-    dispatch(decreaseQuantity(id));
   };
 
-  const deleteItem= async () => {
+  const deleteItem = async () => {
     const token = localStorage.getItem("token");
     // console.log(token);
-    if (token && qty >= 2) {
+    if (token) {
       try {
+        dispatch(deleteFromCart(id));
         const res = await fetch(
           `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/deleteItem`,
           {
@@ -81,7 +86,6 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
         console.log(error.message);
       }
     }
-    dispatch(deleteFromCart(id));
   };
 
   return (
