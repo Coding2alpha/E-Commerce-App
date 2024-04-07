@@ -24,6 +24,29 @@ const Menu = () => {
 
   const handleBuy = () => {
     // const { image, name, price, category, description, _id } = product;
+    const handleAddToCart = async () => {
+      const token = localStorage.getItem("token");
+      // console.log(token);
+      if (token) {
+        try {
+          const res = await fetch(
+            `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/addCartItem`,
+            {
+              method: "POST",
+              headers: {
+                "content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({ id }),
+            }
+          );
+          const data = await res.json();
+        } catch (error) {
+          console.log("error.message");
+        }
+      }
+    };
+    handleAddToCart()
     dispatch(addToCart(product));
     navigate("/cart");
   };

@@ -2,16 +2,87 @@ import { MdCurrencyRupee } from "react-icons/md";
 import { IoAdd } from "react-icons/io5";
 import { LuMinus } from "react-icons/lu";
 import { AiFillDelete } from "react-icons/ai";
-
 import {
   increaseQuantity,
   decreaseQuantity,
   deleteFromCart,
 } from "../features/productSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 
 const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
   const dispatch = useDispatch();
+
+  const increaseQty = async () => {
+    const token = localStorage.getItem("token");
+    // console.log(token);
+    if (token) {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/addCartItem`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ id }),
+          }
+        );
+        const data = await res.json();
+      } catch (error) {
+        console.log("error.message");
+      }
+    }
+    dispatch(increaseQuantity(id));
+  };
+
+  const decreaseQty = async () => {
+    const token = localStorage.getItem("token");
+    // console.log(token);
+    if (token && qty>=2) {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/decreaseQuantity`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ id }),
+          }
+        );
+        const data = await res.json();
+      } catch (error) {
+        console.log("error.message");
+      }
+    }
+    dispatch(decreaseQuantity(id));
+  };
+
+  const deleteItem= async () => {
+    const token = localStorage.getItem("token");
+    // console.log(token);
+    if (token && qty >= 2) {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/deleteItem`,
+          {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify({ id }),
+          }
+        );
+        const data = await res.json();
+      } catch (error) {
+        console.log(error.message);
+      }
+    }
+    dispatch(deleteFromCart(id));
+  };
 
   return (
     <div className="md:pl-5 md:p-2 bg-slate-200 flex gap-4 p-1">
@@ -35,7 +106,7 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
                 </p>
                 <div className="mr-10 flex">
                   <button
-                    onClick={() => dispatch(increaseQuantity(id))}
+                    onClick={increaseQty}
                     className="flex justify-center items-center bg-yellow-500 w-[35px] m-2 p-2 rounded"
                   >
                     <IoAdd />
@@ -44,7 +115,7 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
                     {qty}
                   </span>
                   <button
-                    onClick={() => dispatch(decreaseQuantity(id))}
+                    onClick={decreaseQty}
                     className="flex justify-center items-center bg-yellow-500 w-[35px] m-2 p-2 rounded"
                   >
                     <LuMinus />
@@ -52,7 +123,7 @@ const Cart_Card = ({ image, name, price, category, description, id, qty }) => {
                 </div>
               </div>
               <div
-                onClick={() => dispatch(deleteFromCart(id))}
+                onClick={deleteItem}
                 className=" md:absolute top-0 right-0 m-4 text-3xl"
               >
                 <AiFillDelete />
