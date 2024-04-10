@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { loadStripe } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
+import loader from "../assets/loading.gif";
 
 const Cart = () => {
   const cartItem = useSelector((state) => state.product.cartList);
@@ -40,6 +41,9 @@ const Cart = () => {
         <div className="p-4 text-blue-500 font-bold text-5xl">
           Please Wait...
         </div>
+        <div className="h-20 w-20">
+          <img src={loader}></img>
+        </div>
       </div>
     );
   };
@@ -61,8 +65,8 @@ const Cart = () => {
   };
 
   // Conditional rendering based on cartItem length and loading state
-  const token=localStorage.getItem('token')
-  if (cartItem.length === 0 ) {
+  const token = localStorage.getItem("token");
+  if (cartItem.length === 0) {
     if (!loading && token) {
       return beforeFiveSec();
     } else {
