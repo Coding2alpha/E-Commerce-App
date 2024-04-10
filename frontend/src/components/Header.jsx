@@ -43,16 +43,27 @@ const Header = () => {
         {/* <Link to={"/home"} className="px-1 md:px-2 text-xl">
           Home
         </Link> */}
-        {/* <Link to={"/menu"} className="px-1 md:px-2 text-xl">
-          Menu
-        </Link> */}
         <Link to={"/about"} className=" px-1 md:px-2 text-xl">
           About
         </Link>
         <Link to={"/contact"} className="px-1 md:px-2 text-xl">
           Contact
         </Link>
+        <Link to={"/allProduct"} className="px-1 md:px-2 text-xl">
+          Products
+        </Link>
       </nav>
+      {/* <div>
+        {token ? (
+          <Link onClick={handleLogout} className="px-1 md:px-2 text-xl">
+            Logout
+          </Link>
+        ) : (
+          <Link to={"/login"} className="px-1 md:px-2 text-xl">
+            Login
+          </Link>
+        )}
+      </div> */}
       <div className="flex justify-between items-center">
         <div className="text-2xl md:text-5xl mr-6 relative">
           <Link to={"/cart"} onClick={() => window.scrollTo({ top: "0" })}>
@@ -63,7 +74,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="">
-          <div className="ext-2xl md:text-5xl md:px-4">
+          <div className="text-2xl md:text-5xl md:px-4">
             <FaRegUserCircle onClick={() => setShowMenu(!showMenu)} />
           </div>
           {showMenu && (

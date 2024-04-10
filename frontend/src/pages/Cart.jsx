@@ -27,7 +27,7 @@ const Cart = () => {
       // Set loading state to true after 5 seconds
       const timer = setTimeout(() => {
         setLoading(true);
-      }, 5000);
+      }, 2000);
 
       // Clean up the timer to avoid memory leaks
       return () => clearTimeout(timer);
@@ -61,13 +61,14 @@ const Cart = () => {
   };
 
   // Conditional rendering based on cartItem length and loading state
-  if (cartItem.length === 0) {
-    if (!loading) {
+  const token=localStorage.getItem('token')
+  if (cartItem.length === 0 ) {
+    if (!loading && token) {
       return beforeFiveSec();
     } else {
       return afterFiveSec();
     }
-  } 
+  }
 
   const handlePayment = async () => {
     const token = localStorage.getItem("token");

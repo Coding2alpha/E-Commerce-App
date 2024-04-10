@@ -7,6 +7,7 @@ import { useRef, useState, useEffect } from "react";
 import CardFeature from "../components/CardFeature";
 import AllProduct from "../components/AllProduct";
 import loader from "../assets/loading.gif";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const productData = useSelector((state) => state.product.productList);
@@ -83,7 +84,7 @@ const Home = () => {
               Built to Perfection
             </span>
           </h1>
-          <p className="text-2xl  ml-6 mt-4  ">
+          <p className="text-2xl  ml-6 mt-4 font-semibold text-slate-800">
             Enhance your fitness journey with UFit EShop, your ultimate
             destination for premium gym equipment in India. Explore a diverse
             selection of high-quality treadmills, elliptical trainers,
@@ -92,14 +93,16 @@ const Home = () => {
             Experience excellence with us and achieve your fitness aspirations
             affordably and effectively.
           </p>
-          <div className="flex ml-6 mt-4 w-72 p-3 rounded-lg bg-red-500 justify-center shadow-slate-300 shadow-md">
-            <button
-              type="button"
-              className="text-2xl font-semibold text-white "
-            >
-              Order Now
-            </button>
-          </div>
+          <Link to={'/allProduct'}>
+            <div className="flex ml-6 mt-4 w-72 p-3 rounded-lg bg-red-500 justify-center shadow-slate-300 shadow-md">
+              <button
+                type="button"
+                className="text-2xl font-semibold text-white "
+              >
+                Order Now
+              </button>
+            </div>
+          </Link>
         </div>
         <div className="md:w-1/2 flex flex-wrap justify-center  ">
           {homeProductList[0]

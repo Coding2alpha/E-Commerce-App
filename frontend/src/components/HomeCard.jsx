@@ -8,7 +8,7 @@ const HomeCard = ({ image, name, price, category, description,id }) => {
       {name ? (
         <>
           <Link to={`/menu/${id}`}>
-            <div className="min-h-[150px] ">
+            <div className="min-h-[150px] hover:scale-105 p-1">
               <img src={image} className="rounded-sm " />
             </div>
             <div className="text-md">

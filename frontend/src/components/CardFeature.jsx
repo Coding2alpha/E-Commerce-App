@@ -41,7 +41,7 @@ const CardFeature = ({ image, name, price, category, description, id }) => {
             to={`/menu/${id}`}
             onClick={() => window.scrollTo({ top: "0", behavior: "smooth" })}
           >
-            <div className="min-h-[120px] h-[150px] w-[150px] flex justify-center items-center m-auto ">
+            <div className="min-h-[120px] h-[150px] w-[150px] flex justify-center items-center m-auto hover:scale-110">
               <img src={image} className="rounded-sm h-full w-full" />
             </div>
             <div className="text-md overflow-hidden ">

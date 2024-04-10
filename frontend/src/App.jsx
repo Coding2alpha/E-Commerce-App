@@ -16,6 +16,7 @@ import { setProductData, setCartItems } from "./features/productSlice.js";
 import Cart from "./pages/Cart.jsx";
 import Success from "./pages/Success.jsx";
 import Cancel from "./pages/Cancel.jsx";
+import AllProduct from "./components/AllProduct.jsx";
 
 function App() {
   const dispatch = useDispatch();
@@ -91,6 +92,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
+          <Route path="/allProduct" element={<AllProduct />} />
         </Routes>
       </div>
     </BrowserRouter>

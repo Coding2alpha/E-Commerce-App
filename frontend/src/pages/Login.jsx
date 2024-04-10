@@ -4,8 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../features/userSlice";
-import {  setCartItems } from "../features/productSlice.js";
-
+import { setCartItems } from "../features/productSlice.js";
+import image from '../assets/dumbbell.png'
 
 const Login = () => {
   const [user, setUser] = useState({ email: "", password: "" });
@@ -15,41 +15,40 @@ const Login = () => {
 
   const productData = useSelector((state) => state.product.productList);
 
-
-  const getCartItemAfterLogin=async()=>{
+  const getCartItemAfterLogin = async () => {
     const token = localStorage.getItem("token");
     const product1 = await fetch(
-          `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/getCartItem`,
-          {
-            method: "GET",
-            headers: {
-              "content-type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        const cartItemsData = await product1.json();
+      `${import.meta.env.VITE_APP_SERVER_DOMAIN}/cart/getCartItem`,
+      {
+        method: "GET",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const cartItemsData = await product1.json();
 
-        const productsWithQuantities = cartItemsData
-          .map((cartItem) => {
-            // Find corresponding product in productData
-            const product = productData.find(
-              (product) => product._id === cartItem.productId
-            );
-            if (product) {
-              return {
-                ...product,
-                qty: cartItem.quantity,
-                total: cartItem.price, // Include quantity from cart item
-              };
-            }
-            return null; // Return null if product not found (handle edge case)
-          })
-          .filter(Boolean);
-        // console.log(data);
-        // console.log(productsWithQuantities);
-        dispatch(setCartItems(productsWithQuantities));
-  }
+    const productsWithQuantities = cartItemsData
+      .map((cartItem) => {
+        // Find corresponding product in productData
+        const product = productData.find(
+          (product) => product._id === cartItem.productId
+        );
+        if (product) {
+          return {
+            ...product,
+            qty: cartItem.quantity,
+            total: cartItem.price, // Include quantity from cart item
+          };
+        }
+        return null; // Return null if product not found (handle edge case)
+      })
+      .filter(Boolean);
+    // console.log(data);
+    // console.log(productsWithQuantities);
+    dispatch(setCartItems(productsWithQuantities));
+  };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -93,11 +92,9 @@ const Login = () => {
     <div className="h-full bg-white">
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8 ">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-          <img
-            className="mx-auto h-10 w-auto"
-            src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company"
-          />
+          <div>
+            <img className="mx-auto h-[100px] w-auto" src={image} alt="Your Company" />
+          </div>
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Login Here
           </h2>

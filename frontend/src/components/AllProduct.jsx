@@ -40,7 +40,10 @@ const AllProduct = () => {
   return (
     <div>
       <div className="ml-6 mt-4 mb-5 p-3 ">
-        <div className="flex ">
+        <div className="md:h-20 bg-slate-200 font-semibold flex items-center justify-center rounded text-2xl">
+          Filter Product By Category Using bellow Buttons
+        </div>
+        <div className="flex mt-2">
           <h2 className="font-bold text-3xl">All Products</h2>
         </div>
         <div className="flex gap-5 mt-3 items-center md:justify-center overflow-scroll scrollbar-none">
