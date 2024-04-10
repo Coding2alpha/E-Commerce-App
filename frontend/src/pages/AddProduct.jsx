@@ -125,8 +125,6 @@ const AddProduct = () => {
             <option value={"bottles"}>Bottles</option>
             <option value={"resistance-tubes"}>Resistance-tubes</option>
             <option value={"treadmills"}>Treadmills</option>
-            <option value={"panner"}>Panner</option>
-            <option value={"sandwich"}>Sandwich</option>
           </select>
           <label htmlFor="image" className="mt-2">
             Image

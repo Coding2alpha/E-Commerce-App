@@ -1,6 +1,9 @@
 const express = require("express");
 const Product = require("../models/product");
 const { StatusCodes } = require("http-status-codes");
+const NodeCache = require("node-cache");
+
+const nodeCache = new NodeCache();
 
 const addProduct = async (req, res) => {
   // console.log(req.body)
@@ -8,18 +11,26 @@ const addProduct = async (req, res) => {
     // req.body.createdBy = req.user.userId;
     // console.log(req.body);
     const product = await Product.create(req.body);
+    nodeCache.del("products");
     // console.log(product);
     res.status(StatusCodes.CREATED).json({ msg: "successful" });
   } catch (error) {
-    res.send(error.message );
+    res.send(error.message);
   }
 };
 
 const getAllProducts = async (req, res) => {
   try {
-    const products = await Product.find({});
-    // console.log(products);
-    res.status(StatusCodes.OK).json(products);
+    const cachedProduct = nodeCache.get("products");
+    if (cachedProduct) {
+      const parseProduct = JSON.parse(cachedProduct);
+      res.status(StatusCodes.OK).json(parseProduct);
+    } else {
+      const products = await Product.find({});
+      nodeCache.set("products", JSON.stringify(products));
+      // console.log(products);
+      res.status(StatusCodes.OK).json(products);
+    }
   } catch (error) {
     res.send({ msg: "getAllProduct Failed" });
   }
